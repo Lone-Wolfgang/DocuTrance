@@ -8,13 +8,13 @@ This project presents the development of a multilingual model used for semantic 
 
 This initial commit describes how I trained and evaluated the model. Further updates will go deeper into the code, aiming to be a useful resource for those aiming to build multilingual datasets or evaluate retrievers
 
-
 ## Outline
 
-    - **Multilingual Sentence Transformers**: Introduces the baseline models and explains how they were trained, leading to the finetuning methodology.
-    - **Training Data**: Describes how a dataset of cross-lingual sentence pairs was composed using a human translated research and teaching manual for Ericksonian therapy.
-    - **Evaluation**: Compares the baseline and Ericksonian models on cross-lingual alignment using a human translated glossary and machine generated queries.
-    - **Future Directions**: Identifies shortcomings and outlines a roadmap for upcoming developments.
+- **Multilingual Sentence Transformers**: Introduces the baseline models and explains how they were trained, leading to the finetuning methodology.
+- **Training Data**: Describes how a dataset of cross-lingual sentence pairs was composed using a human-translated research and teaching manual for Ericksonian therapy.
+- **Evaluation**: Compares the baseline and Ericksonian models on cross-lingual alignment using a human-translated glossary and machine-generated queries.
+- **Future Directions**: Identifies shortcomings and outlines a roadmap for upcoming developments.
+
 
 ## Multilingual Sentence Transformers
 
