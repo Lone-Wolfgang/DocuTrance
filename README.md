@@ -27,5 +27,27 @@ While multilingual models like mBERT and XLM-RoBERTa are capable of representing
 
 Off-the-shelf multilingual sentence transformers demonstrate surprising consistency when handling Ericksonian terminology. Nevertheless, the primary source material is both abundant and professionally translated, offering a high-quality foundation for further refinement. Where rich data exists, so does opportunity. This project builds upon the training objectives of multilingual sentence transformers by fine-tuning on parallel sentence pairs extracted from Ericksonian teaching materials, aligning the model more closely with the domain’s unique linguistic characteristics.
 
+### Models
+
+Two models were adapted to Ericksonian terminology. Both are multilingual models trained by [SBERT](https://www.sbert.net/docs/sentence_transformer/pretrained_models.html). In the context of this study, the models are classified as *small* and *large*, with the small model being slightly less performant and far more efficient.
+
+Two multilingual models from [SBERT](https://www.sbert.net/docs/sentence_transformer/pretrained_models.html) were adapted to Ericksonian terminology. In the context of this study, they are classified as *small* and *large*. The small model is less performant, but significantly more efficient in terms of speed and resource usage.
+
+| Class   | Name                                  |   Performance |   Speed |   Dimensions | Size   |
+|---------|---------------------------------------|---------------|---------|--------------|--------|
+| small   | [paraphrase-multilingual-MiniLM-L12-v2](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2) |         51.72 |    2500 |          384 | 420 MB |
+| large   | [paraphrase-multilingual-mpnet-base-v2](https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2) |         53.75 |    7500 |          786 | 920 MB |
+
+  - **Class:** Shorthand identifier for the target model.
+  - **Name:** Link to the model card hosted on HuggingFace.
+  - **Performance:** Average score across benchmark evaluations measuring sentence embedding quality and semantic retrieval.
+  - **Speed:**  Encoding speed in sentences per second on a V100 GPU.
+  - **Dimensions:** Length of the output embedding vector.
+  - **Size:** Disk space required to store the model.
+
+### Training and Evaluation
+
+
+
 
 
