@@ -97,6 +97,6 @@ The training data was divided into three distinct sets:
 *Table 2: Describes the contents of the splits. 85% of the Core Competencies while the remainder was placed the train split while the remainder was placed in development. The Glossary and Queries were split 50/50 between the development and train splits.*
 
 ## Results
-![Hyperparameter Tuning](images/hyperparameter-tuning.png)[Top Five Runs](images/top-five-runs.png)
+![Hyperparameter Tuning](images/hyperparameter-tuning.png)![Top Five Runs](images/top-five-runs.png)
 
 
