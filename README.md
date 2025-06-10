@@ -2,7 +2,7 @@
 
 # Multilingual Retriever for Milton H. Erickson
 
-This project presents the development of a multilingual model used for semantic search in a specefic domain. It powers a [search engine](https://github.com/Lone-Wolfgang/DocuTrance) dedicated for exploring the Collected Works of Milton H. Erickson M.D. 
+This project presents the development of a multilingual model used for semantic search in a specefic domain. It powers a [search engine](https://github.com/Lone-Wolfgang/DocuTrance) dedicated for exploring the *Collected Works* of Milton H. Erickson M.D. 
 
 [Erickson](https://en.wikipedia.org/wiki/Milton_H._Erickson) (1901-1980) made historically significant contributions to the fields of brief therapy and hypnosis. He maintains a dedicated international following of practitioners and researchers. He and his proteges were prolific writers, and lately, efforts have picked up to digitize their works. The purpose of the search engine is to connect his audience with the material that is most relevant to their interests. It is built on OpenSearch and enhanced with a hybrid retrieval approach that combines keyword and semantic scoring. He has significant audiences in Europe, Latin America, and East Asia. With the multilingual semantic retrieval system, users may query the Collected Works in their native language. However, the highly domain-specific language used in Ericksonian teaching materials—rich in therapeutic, metaphorical, and clinical terminology—is challenging for general-purpose language models. These terms are often unseen in other contexts and interpreted inconsistently across languages, making multilingual semantic search especially noisy. This is a classic case of domain specificity, and even flagship models continue to struggle with it.
 
@@ -12,7 +12,7 @@ This initial commit describes how I trained and evaluated the model. Further upd
 
 - **Multilingual Sentence Transformers**: Introduces the baseline models and explains how they were trained, leading to the finetuning methodology.
 - **Training Data**: Describes how a dataset of cross-lingual sentence pairs was composed using a human-translated research and teaching manual for Ericksonian therapy.
-- **Evaluation**: Compares the baseline and Ericksonian models on cross-lingual alignment using a human-translated glossary and machine-generated queries.
+- **Results**: Compares the baseline and Ericksonian models on cross-lingual alignment using a human-translated glossary and machine-generated queries.
 - **Future Directions**: Identifies shortcomings and outlines a roadmap for upcoming developments.
 
 
@@ -43,7 +43,7 @@ Two multilingual models from [SBERT](https://www.sbert.net/docs/sentence_transfo
 ### Training and Evaluation
 
 ![Training a Multilingual Sentence Transformer](images/multilingual-distillation.png)
-*[Figure](https://sbert.net/examples/sentence_transformer/training/multilingual/README.html): Training a multilingual sentence transformer using cross-lingual distillation. The student model is trained to yield embeddings that align with the teacher model. For multilingual distillation, a multilingual student model is trained to align its embeddings with an English teacher model. *
+*[Figure 1](https://sbert.net/examples/sentence_transformer/training/multilingual/README.html): Training a multilingual sentence transformer using cross-lingual distillation. The student model is trained to yield embeddings that align with the teacher model. For multilingual distillation, a multilingual student model is trained to align its embeddings with an English teacher model.*
 
 The models were trained and evaluated based on the script, [make_multilingual.py](https://github.com/UKPLab/sentence-transformers/blob/master/examples/sentence_transformer/training/multilingual/make_multilingual.py).
 
@@ -76,7 +76,7 @@ Finetuning the models involved three datasets:
 | Glossary          |               329 |             1090 | ru                    |
 | Queries           |              1366 |            10928 | de, ja, ru, zh        |
 
-*Table: Describes the contents of the training datasets. The Core Competencies is translated into French, Italian, Portuguese, and Spanish, which is represented in the other datasets. The Glossary and Queries contain additional unseen languages.*
+*Table 1: Describes the contents of the training datasets. The Core Competencies is translated into four languages, each of which is represented in the other datasets. The Glossary and Queries contain additional unseen languages.*
 
 ### Splits
 
@@ -94,7 +94,9 @@ The training data was divided into three distinct sets:
 | Glossary          | -       |           544 | 546    |
 | Queries           | -       |          5464 | 5464   |
 
-*Table: Describes the contents of the splits. 85% of the Core Competencies while the remainder was placed the train split while the remainder was placed in development. The Glossary and Queries were split 50/50 between the development and train splits.*
- 
+*Table 2: Describes the contents of the splits. 85% of the Core Competencies while the remainder was placed the train split while the remainder was placed in development. The Glossary and Queries were split 50/50 between the development and train splits.*
+
+## Results
+![Hyperparameter Tuning](images/hyperparameter-tuning.png)[Top Five Runs](images/top-five-runs.png)
 
 
