@@ -53,13 +53,6 @@ Both pretrained models already performed well on Ericksonian material. The goal 
 
 Training loss was calculated using mean squared error (MSE) between student and teacher embeddings.
 
-Evaluation involved two metrics:
-
- - **MSE**: Measures how closely the student embeddings matched the teacher embeddings.
- - **Translation Accuracy**: Assesses alignment quality by checking whether student and teacher embeddings correctly match across languages. Accuracy is computed as the percentage of correct pairings when matching in both directions (English → Non-English and Non-English → English).
-
- After training, the models are also evaluated on the consistency of cross-lingual retrieval using machine generated and translated queries.
-
 ## Training Data
 
 Finetuning the models involved three datasets:
@@ -70,7 +63,7 @@ Finetuning the models involved three datasets:
  
  - **[Ericksonian Queries](https://huggingface.co/datasets/LoneWolfgang/multilingual-queries-for-collected-works-of-milton-h-erickson):** For evaluation. The queries are machine generated and translated. The prompt and sampling strategy was designed to yield a dataset that is balanced and representative of the *Collected Works of Milton H. Erickson*. English queries were tranlated into Chinese, French, German, Italian, Japanese, Portuguese, Russian, and Spanish.
 
-| Source            |   English Anchors |   Sentence Pairs | Untrained Languages   |
+| Source            |   English Anchors |   Sentence Pairs |   Unseen Languages    |
 |-------------------|-------------------|------------------|-----------------------|
 | Core Competencies |              1586 |             5687 | -                     |
 | Glossary          |               329 |             1090 | ru                    |
@@ -97,9 +90,38 @@ The training data was divided into three distinct sets:
 *Table 2: Describes the contents of the splits. 85% of the Core Competencies while the remainder was placed the train split while the remainder was placed in development. The Glossary and Queries were split 50/50 between the development and train splits.*
 
 ## Results
+
+Evaluation involved two metrics:
+
+ - **MSE**: Measures how closely the student embeddings matched the teacher embeddings.
+ - **Translation Accuracy**: Assesses alignment quality by checking whether student and teacher embeddings correctly match across languages. Accuracy is computed as the percentage of correct pairings when matching in both directions (English → Non-English and Non-English → English).
+
+ After training, the models are also evaluated on the consistency of cross-lingual retrieval using machine generated and translated queries.
+
 <p float="left">
   <img src="images/hyperparameter-tuning.png" alt = "Hyperparameter Tuning" width="45%" />
   <img src="images/top-five-trials.png" alt = "Top Five Trials" width="45%" />
 </p>
+
+*Figure 2: Hyperparameter Tuning and Top Five Trials. A simple hyperparameter sweep was run on two high impact hyperparameters: the learning rate and number of training epochs. The top run was selected by the [sequential score](https://sbert.net/docs/package_reference/sentence_transformer/evaluation.html) on the test set, which combines the translation accuracy and MSE of all subsets.*
+
+During training, performance was also monitored on individual language subsets. Languages were grouped based on whether they are represented in the *Core Competencies* training material:
+
+ - **Seen Languages:** French, Italian, Spanish, Portuguese
+ - **Unseen Languages:** Chinese, German, Japanese, Russian
+
+Both groups represent some of Erickson's largest audiences, so maintaing performance across all languages is important. Improvement was expected in the *seen* languages due to direct exposure during training. Ideally, the model would also benefit from cross-lingual transfer to the *unseen* languages as well. However, even stable performance in those languages would be acceptable. A decline in *unseen* language performance, on the other hand, would indicate a need to revisit the training strategy.
+
+### Performance on the Core Competencies by Train Epoch
+
+![Core Competencies Results](images/cc-results.png)
+
+### Performance on Ericksonian Terminology by Train Epoch
+
+![Glossary Results](images/gloss-results.png)
+
+### Performance on Ericksonian Queries by Train Epoch
+
+![Queries Results](images/queries-results.png)
 
 
