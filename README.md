@@ -72,9 +72,9 @@ Finetuning the models involved three datasets:
 
 | Source            |   English Anchors |   Sentence Pairs | Trained Languages   | Untrained Languages   |
 |-------------------|-------------------|------------------|---------------------|-----------------------|
-| Core Competencies |              1586 |             5687 | en, es, fr, it, pt  |                       |
-| Glossary          |               329 |             1090 |                     | ru                    |
-| Queries           |              1366 |            10928 |                     | de, ja, ru, zh        |
+| Core Competencies |              1586 |             5687 | en, es, fr, it, pt  | -                     |
+| Glossary          |               329 |             1090 | ''                  | ru                    |
+| Queries           |              1366 |            10928 | ''                  | de, ja, ru, zh        |
 
 ### Splits
 
