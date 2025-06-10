@@ -98,8 +98,8 @@ The training data was divided into three distinct sets:
 
 ## Results
 <p float="left">
-  <img src="images/hyperparameter-tuning.png" width="45%" />
-  <img src="images/top-five-runs.png" width="45%" />
+  <img src="images/hyperparameter-tuning.png" alt = "Hyperparameter Tuning" width="45%" />
+  <img src="images/top-five-trials.png" alt = "Top Five Trials" width="45%" />
 </p>
 
 
