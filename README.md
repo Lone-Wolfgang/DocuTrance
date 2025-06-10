@@ -66,15 +66,17 @@ Finetuning the models involved three datasets:
 
  - **[Ericksonian Core Competencies](https://huggingface.co/datasets/LoneWolfgang/ericksonian-core-competencies-multilingual):** The primary training material. A training manual that contextualizes the history and methodology of Ericksonian therapy. The [English](https://www.iamdrshort.com/PDF/Papers/Core%20Competencies%20Manual.pdf) source material has been carefully translated into four languages: [French](https://www.iamdrshort.com/New_Papers/Manuel%20des%20comp%C3%A9tences%20fondamentales%20en%20hypnose%20ericksonienne.pdf), [Italian](https://www.iamdrshort.com/New_Papers/CCET_Italiano.pdf), [Portuguese](http://iamdrshort.com/New_Papers/Princ%C3%ADpios%20e%20Compet%C3%AAncias%20Fundamentais%20da%20Terapia%20Ericksoniana%20(Primeira%20vers%C3%A3o).pdf), and [Spanish](http://iamdrshort.com/New_Papers/Princ%C3%ADpios%20e%20Compet%C3%AAncias%20Fundamentais%20da%20Terapia%20Ericksoniana%20(Primeira%20vers%C3%A3o).pdf).
 
- - **[Ericksonian Terminology](https://huggingface.co/datasets/LoneWolfgang/ericksonian-terminology-multilingual):** For evaluation. The terminology was extracted from a glossary designed to improve the consistency of language use betweeen Ericksonian practitioners. The [English](https://rerickson.gumroad.com/l/MHE_Glossary_English) glossary has been translated into [French](https://rerickson.gumroad.com/l/MHE_Glossary_French?layout=profile), [Italian](https://rerickson.gumroad.com/l/MHE_Glossary_Italian?layout=profile), [Portuguese](https://rerickson.gumroad.com/l/MHE_Glossary_Portuguese?layout=profile), [Russian](https://rerickson.gumroad.com/l/MHE_Glossary_Russian?layout=profile), and [Spanish](https://rerickson.gumroad.com/l/MHE_Glossary_Spanish?layout=profile).
+ - **[Ericksonian Terminology](https://huggingface.co/datasets/LoneWolfgang/ericksonian-terminology-multilingual):** For evaluation. The terminology was extracted from a glossary designed to improve the consistency of language use betweeen Ericksonian practitioners. The [English](https://rerickson.gumroad.com/l/MHE_Glossary_English) glossary has been translated into [French](https://rerickson.gumroad.com/l/MHE_Glossary_French?layout=profile), [Italian](https://rerickson.gumroad.com/l/MHE_Glossary_Italian?layout=profile), [Portuguese](https://rerickson.gumroad.com/l/MHE_Glossary_Portuguese?layout=profile), [Russian](https://rerickson.gumroad.com/l/MHE_Glossary_Russian?layout=profile), and [Spanish](https://rerickson.gumroad.com/l/MHE_Glossary_Spanish?layout=profile). The *Core Competencies* contains an abridged version of the Ericksonian glossary. To prevent data leakage, those terms are witheld during training.
  
  - **[Ericksonian Queries](https://huggingface.co/datasets/LoneWolfgang/multilingual-queries-for-collected-works-of-milton-h-erickson):** For evaluation. The queries are machine generated and translated. The prompt and sampling strategy was designed to yield a dataset that is balanced and representative of the *Collected Works of Milton H. Erickson*. English queries were tranlated into Chinese, French, German, Italian, Japanese, Portuguese, Russian, and Spanish.
 
-| Source            |   English Anchors |   Sentence Pairs | Trained Languages   | Untrained Languages   |
-|-------------------|-------------------|------------------|---------------------|-----------------------|
-| Core Competencies |              1586 |             5687 | en, es, fr, it, pt  | -                     |
-| Glossary          |               329 |             1090 | ''                  | ru                    |
-| Queries           |              1366 |            10928 | ''                  | de, ja, ru, zh        |
+| Source            |   English Anchors |   Sentence Pairs | Untrained Languages   |
+|-------------------|-------------------|------------------|-----------------------|
+| Core Competencies |              1586 |             5687 | -                     |
+| Glossary          |               329 |             1090 | ru                    |
+| Queries           |              1366 |            10928 | de, ja, ru, zh        |
+
+*Table: Describes the contents of the training datasets. The Core Competencies is translated into French, Italian, Portuguese, and Spanish, which is represented in the other datasets. The Glossary and Queries contain additional unseen languages.*
 
 ### Splits
 
@@ -84,7 +86,15 @@ The training data was divided into three distinct sets:
  - **Development**: Used for hyperparameter tuning. After initial training, candidate models are evaluated on this set. A Bayesian search algorithm iteratively adjusts the hyperparameters to optimize performance for the given model and dataset. While tuning, the student model is partially exposed to this set.
  - **Test**: A held-out, unbiased set used to verify that the selected hyperparameters result in a model that generalizes well, rather than one that has simply overfit to the development data.
 
- The datasets each have multiple translations for common English anchors. To avoid data leakage, the examples were grouped by their English 
+ The datasets each have multiple translations for common English anchors. To avoid data leakage, the examples were grouped by their English anchor before splitting.
+
+|                   | Train   |   Development | Test   |
+|-------------------|---------|---------------|--------|
+| Core Competencies | 5191    |           573 | -      |
+| Glossary          | -       |           544 | 546    |
+| Queries           | -       |          5464 | 5464   |
+
+*Table: Describes the contents of the splits. 85% of the Core Competencies while the remainder was placed the train split while the remainder was placed in development. The Glossary and Queries were split 50/50 between the development and train splits.*
  
 
 
