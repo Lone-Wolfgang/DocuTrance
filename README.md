@@ -105,23 +105,29 @@ Evaluation involved two metrics:
 
 *Figure 2: Hyperparameter Tuning and Top Five Trials. A simple hyperparameter sweep was run on two high impact hyperparameters: the learning rate and number of training epochs. The top run was selected by the [sequential score](https://sbert.net/docs/package_reference/sentence_transformer/evaluation.html) on the test set, which combines the translation accuracy and MSE of all subsets.*
 
-During training, performance was also monitored on individual language subsets. Languages were grouped based on whether they are represented in the *Core Competencies* training material:
+During training, performance was also monitored on individual language subsets. Languages were grouped based on whether they were included in the Core Competencies training material:
 
  - **Seen Languages:** French, Italian, Spanish, Portuguese
  - **Unseen Languages:** Chinese, German, Japanese, Russian
 
-Both groups represent some of Erickson's largest audiences, so maintaing performance across all languages is important. Improvement was expected in the *seen* languages due to direct exposure during training. Ideally, the model would also benefit from cross-lingual transfer to the *unseen* languages as well. However, even stable performance in those languages would be acceptable. A decline in *unseen* language performance, on the other hand, would indicate a need to revisit the training strategy.
+Each language represents one of Erickson’s largest audiences, so maintaining strong performance across all groups is essential. Improvement was expected in the *seen* languages because they are included in the training data. Ideally, the model would also benefit from cross-lingual transfer to the *unseen* languages. However, even stable performance in those languages would be considered acceptable. A decline in performance for *unseen* languages, on the other hand, would suggest the need to reevaluate the training strategy.
 
 ### Performance on the Core Competencies by Train Epoch
 
 ![Core Competencies Results](images/cc-results.png)
 
+*When measured by MSE, model performance improved across all languages. Translation accuracy began at a high level (~99%) and either remained stable or showed a slight decline over the course of training. Unlike the other two datasets, Core Competencies consists of a continuous body of text. This increases the likelihood that some evaluation examples were semantically linked, introducing the possibility of false negatives. Additionally, Core Competencies uses more common terminology, so a decline in accuracy may reflect a loss of general competency due to domain adaptation. While the slight instability in translation accuracy was unexpected, the overall improvement in MSE and the consistently high accuracy are considered positive outcomes.*
+
 ### Performance on Ericksonian Terminology by Train Epoch
 
 ![Glossary Results](images/gloss-results.png)
 
+*In this case, performance improves across both metrics for all languages. Initial scores are lower, reflecting the tendency of general-purpose language models to struggle with domain-specific terminology. The unseen language, Russian, starts at a particularly low point—likely due to the use of Cyrillic script, in contrast to the Latin script used by the other languages. Although Russian ends with the lowest absolute performance, it shows the largest overall gain, with translation accuracy increasing from 74% to 80%. This is considered a highly positive outcome.*
+
 ### Performance on Ericksonian Queries by Train Epoch
 
 ![Queries Results](images/queries-results.png)
+
+*Once again, performance improves across all metrics for all languages, with the seen languages finishing at higher levels than the unseen ones. Initial performance falls between that of the Core Competencies and Queries datasets. Among the languages, those using Latin script start highest, followed by Russian, then Chinese and Japanese. Notably, languages with lower starting points tend to show the greatest improvements, regardless of whether they were seen or unseen during training. Overall, this is considered a highly positive outcome.*
 
 
