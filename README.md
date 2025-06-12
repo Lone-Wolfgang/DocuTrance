@@ -116,18 +116,87 @@ Each language represents one of Erickson’s largest audiences, so maintaining s
 
 ![Core Competencies Results](images/cc-results.png)
 
-*When measured by MSE, model performance improved across all languages. Translation accuracy began at a high level (~99%) and either remained stable or showed a slight decline over the course of training. Unlike the other two datasets, Core Competencies consists of a continuous body of text. This increases the likelihood that some evaluation examples were semantically linked, introducing the possibility of false negatives. Additionally, Core Competencies uses more common terminology, so a decline in accuracy may reflect a loss of general competency due to domain adaptation. While the slight instability in translation accuracy was unexpected, the overall improvement in MSE and the consistently high accuracy are considered positive outcomes.*
+*Figure 3: When measured by MSE, model performance improved across all languages. Translation accuracy began at a high level (~99%) and either remained stable or showed a slight decline over the course of training. Unlike the other two datasets, Core Competencies consists of a continuous body of text. This increases the likelihood that some evaluation examples were semantically linked, introducing the possibility of false negatives. Additionally, Core Competencies uses more common terminology, so a decline in accuracy may reflect a loss of general competency due to domain adaptation. While the slight instability in translation accuracy was unexpected, the overall improvement in MSE and the consistently high accuracy are considered positive outcomes.*
 
 ### Performance on Ericksonian Terminology by Train Epoch
 
 ![Glossary Results](images/gloss-results.png)
 
-*In this case, performance improves across both metrics for all languages. Initial scores are lower, reflecting the tendency of general-purpose language models to struggle with domain-specific terminology. The unseen language, Russian, starts at a particularly low point—likely due to the use of Cyrillic script, in contrast to the Latin script used by the other languages. Although Russian ends with the lowest absolute performance, it shows the largest overall gain, with translation accuracy increasing from 74% to 80%. This is considered a highly positive outcome.*
+*Figure 4: In this case, performance improves across both metrics for all languages. Initial scores are lower, reflecting the tendency of general-purpose language models to struggle with domain-specific terminology. The unseen language, Russian, starts at a particularly low point—likely due to the use of Cyrillic script, in contrast to the Latin script used by the other languages. Although Russian ends with the lowest absolute performance, it shows the largest overall gain, with translation accuracy increasing from 74% to 80%. This is considered a highly positive outcome.*
 
 ### Performance on Ericksonian Queries by Train Epoch
 
 ![Queries Results](images/queries-results.png)
 
-*Once again, performance improves across all metrics for all languages, with the seen languages finishing at higher levels than the unseen ones. Initial performance falls between that of the Core Competencies and Queries datasets. Among the languages, those using Latin script start highest, followed by Russian, then Chinese and Japanese. Notably, languages with lower starting points tend to show the greatest improvements, regardless of whether they were seen or unseen during training. Overall, this is considered a highly positive outcome.*
+*Figure 5: Once again, performance improves across all metrics for all languages, with the seen languages finishing at higher levels than the unseen ones. Initial performance falls between that of the Core Competencies and Queries datasets. Among the languages, those using Latin script start highest, followed by Russian, then Chinese and Japanese. Notably, languages with lower starting points tend to show the greatest improvements, regardless of whether they were seen or unseen during training. Overall, this is considered a highly positive outcome.*
+
+<table>
+  <thead>
+    <tr>
+      <th>Class</th>
+      <th>Model</th>
+      <th>Lang Group</th>
+      <th>Top 1 Match</th>
+      <th>Jaccard Similarity</th>
+      <th>RBO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="4">Small</td>
+      <td rowspan="2">Control</td>
+      <td>seen</td>
+      <td>35.8%</td>
+      <td>36.2%</td>
+      <td>0.417</td>
+    </tr>
+    <tr>
+      <td>unseen</td>
+      <td>27.9%</td>
+      <td>31.4%</td>
+      <td>0.355</td>
+    </tr>
+    <tr>
+      <td rowspan="2">MHE</td>
+      <td>seen</td>
+      <td>55.2%</td>
+      <td>53.2%</td>
+      <td>0.605</td>
+    </tr>
+    <tr>
+      <td>unseen</td>
+      <td>35.7%</td>
+      <td>38.0%</td>
+      <td>0.431</td>
+    </tr>
+    <tr>
+      <td rowspan="4">Large</td>
+      <td rowspan="2">Control</td>
+      <td>seen</td>
+      <td>53.4%</td>
+      <td>50.1%</td>
+      <td>0.580</td>
+    </tr>
+    <tr>
+      <td>unseen</td>
+      <td>44.1%</td>
+      <td>41.5%</td>
+      <td>0.490</td>
+    </tr>
+    <tr>
+      <td rowspan="2">MHE</td>
+      <td>seen</td>
+      <td><strong>64.8%</strong></td>
+      <td><strong>61.7%</strong></td>
+      <td><strong>0.688</strong></td>
+    </tr>
+    <tr>
+      <td>unseen</td>
+      <td><strong>49.1%</strong></td>
+      <td><strong>47.1%</strong></td>
+      <td><strong>0.545</strong></td>
+    </tr>
+  </tbody>
+</table>
 
 
