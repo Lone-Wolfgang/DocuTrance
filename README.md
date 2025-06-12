@@ -91,19 +91,23 @@ The training data was divided into three distinct sets:
 
 ## Results
 
-Evaluation involved two metrics:
+### Training Evaluation
+
+Evaluation during training involved two metrics:
 
  - **MSE**: Measures how closely the student embeddings matched the teacher embeddings.
  - **Translation Accuracy**: Assesses alignment quality by checking whether student and teacher embeddings correctly match across languages. Accuracy is computed as the percentage of correct pairings when matching in both directions (English → Non-English and Non-English → English).
 
- After training, the models are also evaluated on the consistency of cross-lingual retrieval using machine generated and translated queries.
+During training, scores were computed for both metrics on the development set and combined using a [sequential evaluator](https://sbert.net/docs/package_reference/sentence_transformer/evaluation.html)
+
+#### Hyperparameter Tuning and the Top Five Trials
 
 <p float="left">
   <img src="images/hyperparameter-tuning.png" alt = "Hyperparameter Tuning" width="45%" />
   <img src="images/top-five-trials.png" alt = "Top Five Trials" width="45%" />
 </p>
 
-*Figure 2: Hyperparameter Tuning and Top Five Trials. A simple hyperparameter sweep was run on two high impact hyperparameters: the learning rate and number of training epochs. The top run was selected by the [sequential score](https://sbert.net/docs/package_reference/sentence_transformer/evaluation.html) on the test set, which combines the translation accuracy and MSE of all subsets.*
+*Figure 2: A simple hyperparameter sweep was run on two high impact hyperparameters: the learning rate and number of training epochs. The top run was selected by the sequential score on the test set*
 
 During training, performance was also monitored on individual language subsets. Languages were grouped based on whether they were included in the Core Competencies training material:
 
@@ -112,23 +116,74 @@ During training, performance was also monitored on individual language subsets. 
 
 Each language represents one of Erickson’s largest audiences, so maintaining strong performance across all groups is essential. Improvement was expected in the *seen* languages because they are included in the training data. Ideally, the model would also benefit from cross-lingual transfer to the *unseen* languages. However, even stable performance in those languages would be considered acceptable. A decline in performance for *unseen* languages, on the other hand, would suggest the need to reevaluate the training strategy.
 
-### Performance on the Core Competencies by Train Epoch
+In the series of figures that follow, *seen* languages are shown in blue, and *unseen* in red.
+
+#### Performance on the Core Competencies by Train Epoch
 
 ![Core Competencies Results](images/cc-results.png)
 
 *Figure 3: When measured by MSE, model performance improved across all languages. Translation accuracy began at a high level (~99%) and either remained stable or showed a slight decline over the course of training. Unlike the other two datasets, Core Competencies consists of a continuous body of text. This increases the likelihood that some evaluation examples were semantically linked, introducing the possibility of false negatives. Additionally, Core Competencies uses more common terminology, so a decline in accuracy may reflect a loss of general competency due to domain adaptation. While the slight instability in translation accuracy was unexpected, the overall improvement in MSE and the consistently high accuracy are considered positive outcomes.*
 
-### Performance on Ericksonian Terminology by Train Epoch
+#### Performance on Ericksonian Terminology by Train Epoch
 
 ![Glossary Results](images/gloss-results.png)
 
 *Figure 4: In this case, performance improves across both metrics for all languages. Initial scores are lower, reflecting the tendency of general-purpose language models to struggle with domain-specific terminology. The unseen language, Russian, starts at a particularly low point—likely due to the use of Cyrillic script, in contrast to the Latin script used by the other languages. Although Russian ends with the lowest absolute performance, it shows the largest overall gain, with translation accuracy increasing from 74% to 80%. This is considered a highly positive outcome.*
 
-### Performance on Ericksonian Queries by Train Epoch
+#### Performance on Ericksonian Queries by Train Epoch
 
 ![Queries Results](images/queries-results.png)
 
 *Figure 5: Once again, performance improves across all metrics for all languages, with the seen languages finishing at higher levels than the unseen ones. Initial performance falls between that of the Core Competencies and Queries datasets. Among the languages, those using Latin script start highest, followed by Russian, then Chinese and Japanese. Notably, languages with lower starting points tend to show the greatest improvements, regardless of whether they were seen or unseen during training. Overall, this is considered a highly positive outcome.*
+
+### Evaluation of Embedding Aligment
+
+Cosine similarity is an alternative to MSE for measuring embedding similarity. It ranges from -1 to 1, where 1 indicates identical terms, -1 indicates complete opposition, and 0 suggests no meaningful relationship. Cosine similarity was computed before and after training on the test split of the Ericksonian terminology between each term and its tranlation.
+
+#### Cosine Similarity of Ericksonian Terminology, Before and After Training
+
+![Histogram of Cosine Similairty](images/hist-of-embedding-alignment-large.png)
+
+*Figure 6: Results before and after training the large model. MHE (Milton H. Erickson) refers to the trained model. The control model already performs well, with over 65% of terms scoring above 0.8 in similarity. Training further improves alignment, with scores above 0.9 climbing by about 40%.*
+
+#### Improvement in Embedding Alignment by Language
+
+| Language   |   Before |   After |   Difference |
+|------------|----------|---------|--------------|
+| Spanish    |    0.842 |   0.882 |        0.04  |
+| French     |    0.827 |   0.884 |        0.057 |
+| Italian    |    0.828 |   0.89  |        0.061 |
+| Portuguese |    0.829 |   0.888 |        0.06  |
+| Russian    |    0.765 |   0.82  |        0.055 |
+
+*Table 4: Change in cosine similarity after training. Improvements are consistent across languages. Russian shows changes comparable to the seen languages, which is encouraging; however, its lower starting point likely contributed to the larger observed gains.*
+
+#### Most Improved Terms
+
+| Term                     |   Before |   After |   Difference |
+|--------------------------|----------|---------|--------------|
+| light trance             |    0.675 |   0.938 |        0.264 |
+| trance identification    |    0.653 |   0.892 |        0.239 |
+| waking trance            |    0.717 |   0.938 |        0.222 |
+| formal trance            |    0.734 |   0.955 |        0.221 |
+| group trance             |    0.746 |   0.955 |        0.208 |
+| common everyday trance   |    0.721 |   0.928 |        0.206 |
+| trance logic             |    0.776 |   0.953 |        0.177 |
+| deep trance              |    0.805 |   0.977 |        0.172 |
+| inflection               |    0.549 |   0.717 |        0.168 |
+| authoritative hypnosis   |    0.772 |   0.934 |        0.162 |
+| hypnotist                |    0.812 |   0.972 |        0.16  |
+| competence               |    0.746 |   0.894 |        0.148 |
+| self hypnosis            |    0.853 |   0.977 |        0.124 |
+| flat affect              |    0.402 |   0.519 |        0.117 |
+| bonding                  |    0.572 |   0.687 |        0.115 |
+| auto-hypnosis            |    0.879 |   0.988 |        0.108 |
+| post-hypnotic suggestion |    0.854 |   0.958 |        0.104 |
+| ericksonian hypnosis     |    0.887 |   0.99  |        0.103 |
+| linking                  |    0.524 |   0.624 |        0.1   |
+| waxy flexibility         |    0.623 |   0.721 |        0.098 |
+
+*Table 5: Displays the Ericksonian terms with the largest average increase in cosine similairity across languages. Most of the terms are some variation to trance or hypnosis, which are central topics of Ericksonian works.*
 
 <table>
   <thead>
@@ -198,5 +253,99 @@ Each language represents one of Erickson’s largest audiences, so maintaining s
     </tr>
   </tbody>
 </table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Class</th>
+      <th>Model</th>
+      <th>Retrieval Methods</th>
+      <th>Top 1 Match</th>
+      <th>Jaccard Similarity</th>
+      <th>RBO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="6">Small</td>
+      <td rowspan="3">Control</td>
+      <td>Hybrid vs. Neural</td>
+      <td>13.5%</td>
+      <td>10.2%</td>
+      <td>0.152</td>
+    </tr>
+    <tr>
+      <td>Hybrid vs. Keyword</td>
+      <td>70.0%</td>
+      <td>68.2%</td>
+      <td>0.753</td>
+    </tr>
+    <tr>
+      <td>Neural vs. Keyword</td>
+      <td>12.6%</td>
+      <td>9.8%</td>
+      <td>0.142</td>
+    </tr>
+    <tr>
+      <td rowspan="3">MHE</td>
+      <td>Hybrid vs. Neural</td>
+      <td>13.8%</td>
+      <td>9.6%</td>
+      <td>0.148</td>
+    </tr>
+    <tr>
+      <td>Hybrid vs. Keyword</td>
+      <td>70.0%</td>
+      <td>68.2%</td>
+      <td>0.753</td>
+    </tr>
+    <tr>
+      <td>Neural vs. Keyword</td>
+      <td>13.2%</td>
+      <td>9.3%</td>
+      <td>0.140</td>
+    </tr>
+    <tr>
+      <td rowspan="6">Large</td>
+      <td rowspan="3">Control</td>
+      <td>Hybrid vs. Neural</td>
+      <td>13.2%</td>
+      <td>9.8%</td>
+      <td>0.148</td>
+    </tr>
+    <tr>
+      <td>Hybrid vs. Keyword</td>
+      <td>70.0%</td>
+      <td>68.2%</td>
+      <td>0.753</td>
+    </tr>
+    <tr>
+      <td>Neural vs. Keyword</td>
+      <td>13.6%</td>
+      <td>9.7%</td>
+      <td>0.144</td>
+    </tr>
+    <tr>
+      <td rowspan="3">MHE</td>
+      <td>Hybrid vs. Neural</td>
+      <td>12.4%</td>
+      <td>9.8%</td>
+      <td>0.142</td>
+    </tr>
+    <tr>
+      <td>Hybrid vs. Keyword</td>
+      <td>70.0%</td>
+      <td>68.2%</td>
+      <td>0.753</td>
+    </tr>
+    <tr>
+      <td>Neural vs. Keyword</td>
+      <td>12.7%</td>
+      <td>9.6%</td>
+      <td>0.137</td>
+    </tr>
+  </tbody>
+</table>
+
 
 
