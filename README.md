@@ -183,7 +183,29 @@ Cosine similarity is an alternative to MSE for measuring embedding similarity. I
 | linking                  |    0.524 |   0.624 |        0.1   |
 | waxy flexibility         |    0.623 |   0.721 |        0.098 |
 
-*Table 5: Displays the Ericksonian terms with the largest average increase in cosine similairity across languages. Most of the terms are some variation to trance or hypnosis, which are central topics of Ericksonian works.*
+*Table 5: Displays 20 terms from the Ericksonian Terminology test split with the largest average increase in cosine similairity. Most of the terms are some variation to trance or hypnosis, which are central topics of Ericksonian works.*
+
+### Evaluation of Retrieval Performance
+
+The final evaluation measures how training impacts the model’s performance on its core task: document retrieval. Although this is the most important assessment, it is also extremely noisy due to the  complexity of the search engine architecture. 
+
+The retrieval system uses a hybrid scoring algorithm that combines keyword and semantic similarity. The keyword component is based on the Best Match 25 (BM25) algorithm, a standard choice in modern search engines. Additional weight is given to certain features, such as exact phrase matches and title matches. To improve recall and consistency, documents are also indexed in lemmatized form.
+
+The semantic retrieval component ranks documents based on the similarity between embeddings of the query and various document fields. This approach is especially powerful because it can retrieve relevant results even when the query words are not explicitly present in the document.
+
+However, semantic models are constrained by their context window. In this case, the limit is 128 tokens, or approximately 50–60 words. This makes it impractical to embed full-length chapters or documents. To compensate, each document is indexed not only by its full content but also by an AI-generated summary and a list of AI-extracted keywords, which help preserve essential information within the limited context window.
+
+This evaluation investigates two questions:
+
+ 1. **Cross-lingual consistency:** When using semantic search alone, how consistent are retrieval results for translated (non-English) queries compared to their original English versions? Since the goal of training was to align non-English and English embeddings, translated queries should ideally retrieve the same documents as their English counterparts.
+
+ 2. **Retrieval strategy consistency:** For English queries, how consistent are the results across BM25-only, semantic-only, and hybrid retrieval strategies? In an ideal scenario, these methods would produce highly similar results. This would suggest that non-English users, whose queries rely more heavily on semantic search, can retrieve relevant documents just as effectively as English users.
+
+ The top five documents for each query in the Ericksonian Queries test split was retrieved with variation in query language and retrieval strategy. Reuslts were compared through three metrics:
+  - **Top-1 Accuracy:** The frequency with which the top-ranked document is an exact match. This metric is important because the top result strongly influences user experience, though it provides only a shallow measure of performance.
+  - **Jaccard Similairty:** The proportion of overlap between the sets of top five documents. This metric offers a broader view than Top-1 Accuracy by considering multiple results, but it is insensitive to the order in which documents are ranked.
+  - **Rank Based Overlap:**  A ranking-aware metric that captures both the degree of overlap and the relative positions of the retrieved documents. It provides a more rounded assessment of retrieval consistency.
+
 
 <table>
   <thead>
@@ -191,7 +213,7 @@ Cosine similarity is an alternative to MSE for measuring embedding similarity. I
       <th>Class</th>
       <th>Model</th>
       <th>Lang Group</th>
-      <th>Top 1 Match</th>
+      <th>Top-1 Match</th>
       <th>Jaccard Similarity</th>
       <th>RBO</th>
     </tr>
@@ -260,7 +282,7 @@ Cosine similarity is an alternative to MSE for measuring embedding similarity. I
       <th>Class</th>
       <th>Model</th>
       <th>Retrieval Methods</th>
-      <th>Top 1 Match</th>
+      <th>Top-1 Match</th>
       <th>Jaccard Similarity</th>
       <th>RBO</th>
     </tr>
@@ -269,7 +291,7 @@ Cosine similarity is an alternative to MSE for measuring embedding similarity. I
     <tr>
       <td rowspan="6">Small</td>
       <td rowspan="3">Control</td>
-      <td>Hybrid vs. Neural</td>
+      <td>Hybrid vs. Semantic</td>
       <td>13.5%</td>
       <td>10.2%</td>
       <td>0.152</td>
@@ -281,14 +303,14 @@ Cosine similarity is an alternative to MSE for measuring embedding similarity. I
       <td>0.753</td>
     </tr>
     <tr>
-      <td>Neural vs. Keyword</td>
+      <td>Semantic vs. Keyword</td>
       <td>12.6%</td>
       <td>9.8%</td>
       <td>0.142</td>
     </tr>
     <tr>
       <td rowspan="3">MHE</td>
-      <td>Hybrid vs. Neural</td>
+      <td>Hybrid vs. Semantic</td>
       <td>13.8%</td>
       <td>9.6%</td>
       <td>0.148</td>
@@ -300,7 +322,7 @@ Cosine similarity is an alternative to MSE for measuring embedding similarity. I
       <td>0.753</td>
     </tr>
     <tr>
-      <td>Neural vs. Keyword</td>
+      <td>Semantic vs. Keyword</td>
       <td>13.2%</td>
       <td>9.3%</td>
       <td>0.140</td>
@@ -308,7 +330,7 @@ Cosine similarity is an alternative to MSE for measuring embedding similarity. I
     <tr>
       <td rowspan="6">Large</td>
       <td rowspan="3">Control</td>
-      <td>Hybrid vs. Neural</td>
+      <td>Hybrid vs. Semantic</td>
       <td>13.2%</td>
       <td>9.8%</td>
       <td>0.148</td>
@@ -320,14 +342,14 @@ Cosine similarity is an alternative to MSE for measuring embedding similarity. I
       <td>0.753</td>
     </tr>
     <tr>
-      <td>Neural vs. Keyword</td>
+      <td>Semantic vs. Keyword</td>
       <td>13.6%</td>
       <td>9.7%</td>
       <td>0.144</td>
     </tr>
     <tr>
       <td rowspan="3">MHE</td>
-      <td>Hybrid vs. Neural</td>
+      <td>Hybrid vs. Semantic</td>
       <td>12.4%</td>
       <td>9.8%</td>
       <td>0.142</td>
@@ -339,7 +361,7 @@ Cosine similarity is an alternative to MSE for measuring embedding similarity. I
       <td>0.753</td>
     </tr>
     <tr>
-      <td>Neural vs. Keyword</td>
+      <td>Semantic vs. Keyword</td>
       <td>12.7%</td>
       <td>9.6%</td>
       <td>0.137</td>
