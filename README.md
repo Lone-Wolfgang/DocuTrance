@@ -206,6 +206,7 @@ This evaluation investigates two questions:
   - **Jaccard Similairty:** The proportion of overlap between the sets of top five documents. This metric offers a broader view than Top-1 Accuracy by considering multiple results, but it is insensitive to the order in which documents are ranked.
   - **Rank Based Overlap:**  A ranking-aware metric that captures both the degree of overlap and the relative positions of the retrieved documents. It provides a more rounded assessment of retrieval consistency.
 
+#### Cross-lingual Consistency of Semantic Retrieval
 
 <table>
   <thead>
@@ -275,6 +276,11 @@ This evaluation investigates two questions:
     </tr>
   </tbody>
 </table>
+
+*Table 5: The experimental (MHE) model signficantly outperforms the control in both size classes. The large MHE model takes the top scores. The small MHE model outperforms the large control on the seen languages, it underperforms on the unseen languages. Interestingly, not only to the seen languages start higher, they also make much larger gains, which is inconsistent with earlier observations.*
+
+
+#### Consistency of Keyword, Semantic, and Hybrid Retrieval for English Queries
 
 <table>
   <thead>
@@ -368,6 +374,56 @@ This evaluation investigates two questions:
     </tr>
   </tbody>
 </table>
+
+*Table 6: Semantic retrieval proved highly inconsistent when compared to hybrid and keyword-based methods. In contrast, keyword and hybrid approaches showed strong mutual consistency. Although this result is disappointing, the underlying causes remain poorly understood and may reflect broader trends in retrieval systems. While training may have helped align the neural retriever, it is unclear whether this leads to meaningful improvements for non-English users.*
+
+## Future Directions
+
+This was an exciting project to work on. It was an especially positive outcome to see improvement in the unseen languages, and its possible more training data could bring even better results. However, semantic retrieval remained inconsistent with hybrid methods. This suggests that there is a problem that goes deeper than the model. Future work will explore ways to improve integration between semantic and keyword-based scoring, and investigate whether cross-lingual consistency can be better leveraged to support multilingual users that are browsing the *Collected Works of Milton H. Erickson*.
+
+### More Training Data
+
+The *Core Competencies* has also been translated into Bahasa Indonesian. However, unlike the other manuals, it is not strictly aligned at the sentence level. After a closer review, I plan to incorporate portions of it in a future update.
+
+Several other Ericksonian works have been privately translated and published. If I am able to secure cooperation from the rights holders, I hope to obtain additional high-quality training material in languages such as German, Chinese, Japanese, and Russian.
+
+### A Better Teacher Model
+
+The student model’s performance is ultimately limited by the quality of the teacher. Ideally, domain adaptation should start with the teacher model. One option is to adapt it using the masked language modeling objective on the Collected Works. However, this approach is slow and resource-intensive. Introducing a core-level hyperparameter like this can quickly escalate the training budget. It’s an exciting direction, but one that requires careful planning, clear goals, and significant investment.
+
+### A More Robust Index
+
+Semantic search depends heavily on the quality of the indexed summaries and keywords, which were generated using AI. While they’ve passed basic checks, their accuracy and relevance haven’t been fully validated. As the project progresses, greater focus will be placed on refining these fields. Improving their quality is expected to enhance the consistency and reliability of retrieval results.
+
+### Human Produced Queries
+
+Retrieval systems are typically evaluated using human-generated queries, but such data wasn’t available for this project. With the upcoming launch of the search engine, real user queries will soon become accessible. These will offer valuable insight into user intent and allow for targeted tuning of the system to better meet their needs.
+
+## References
+
+```
+@inproceedings{reimers-2020-multilingual-sentence-bert,
+  title = "Making Monolingual Sentence Embeddings Multilingual using Knowledge Distillation",
+  author = "Reimers, Nils and Gurevych, Iryna",
+  booktitle = "Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing",
+  month = "11",
+  year = "2020",
+  publisher = "Association for Computational Linguistics",
+  url = "https://arxiv.org/abs/2004.09813",
+}
+
+@manual{short2017ericksonian,
+  title = "Principles and Core Competencies of Ericksonian Therapy: The 2017 Research and Teaching Manual for Ericksonian Therapy",
+  editor = "Dan Short",
+  author = "Dan Short and Scott D. Miller",
+  organization = "Milton H. Erickson Foundation",
+  year = "2017",
+  publisher = "Milton H. Erickson Institute of Phoenix",
+  address = "Phoenix, AZ",
+  url = "https://iamdrshort.com/book.htm"
+}
+
+```
 
 
 
