@@ -204,7 +204,7 @@ This evaluation investigates two questions:
  The top five documents for each query in the Ericksonian Queries test split was retrieved with variation in query language and retrieval strategy. Reuslts were compared through three metrics:
   - **Top-1 Accuracy:** The frequency with which the top-ranked document is an exact match. This metric is important because the top result strongly influences user experience, though it provides only a shallow measure of performance.
   - **Jaccard Similairty:** The proportion of overlap between the sets of top five documents. This metric offers a broader view than Top-1 Accuracy by considering multiple results, but it is insensitive to the order in which documents are ranked.
-  - **Rank Based Overlap:**  A ranking-aware metric that captures both the degree of overlap and the relative positions of the retrieved documents. It provides a more rounded assessment of retrieval consistency.
+  - **Rank Biased Overlap (RBO):**  A ranking-aware metric that captures both the degree of overlap and the relative positions of the retrieved documents. It provides a more rounded assessment of retrieval consistency.
 
 #### Cross-lingual Consistency of Semantic Retrieval
 
