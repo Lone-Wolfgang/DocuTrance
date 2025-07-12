@@ -1,11 +1,9 @@
 # app.py
 import streamlit as st
 from docutrance.ux import (
-    setup_page,
-    initialize_session_state,
-    render_main_input
+    setup_page
 )
-from docutrance.search import hybrid_search_pipeline, preprocess_input, compose_query_body
+from docutrance.search import hybrid_search_pipeline, preprocess_input
 from configs.app import (
     CLIENT,
     ENCODER,
