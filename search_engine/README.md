@@ -42,8 +42,7 @@ http://localhost:5601/app/home#/
 
 ```bash
 #From the root directory, ~Docutrance/
-cd search_engine
-python ingest_pipeline.py
+python search_engine/ingest_pipeline.py
 ```
 
 
@@ -75,8 +74,7 @@ Once your index is built, browse it using `app.py`:
 
 ```bash
 #From the root directory, ~Docutrance/
-cd search_engine
-streamlit run app.py
+streamlit run search_engine/app.py
 ``` 
 
 This rudimentary search engine provides a simple search bar interface. When a user enters a query, it ranks indexed Wikipedia pages based on relevance. The system performs both keyword and semantic searches, combining their results using Reciprocal Rank Fusion (RRF). Launch the app and try different queries to explore its capabilities and limitations. By default, it uses a multilingual model, allowing users to search in their preferred language.
